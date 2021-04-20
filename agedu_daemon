@@ -1,0 +1,67 @@
+#!/bin/sh
+
+start_agedu() {
+              /bin/tmux new -d -n AGEDU -s WEB '/bin/agedu -f /export/sha6131.dat -w --address 192.168.178.250:6131 --auth none --title "sha6131 storagenode"'
+
+}
+
+stop_agedu() {
+
+/bin/tmux kill-session -t WEB
+}
+
+case $1 in
+    start)
+        /bin/pgrep -a agedu | grep "\-w" &> /dev/null
+        if [ $? -eq 0 ]; then
+        echo -e "\e[43mSKIP\e[0m tmux agedu WEB session already running"
+        else
+        start_agedu
+        echo -e "\e[42mDONE:\e[0m tmux agedu WEB session started"
+        fi
+        ;;
+    stop)
+        EXITCODE=0
+        if [ -f /bin/tmux ]; then
+                stop_agedu &> /dev/null
+                EXITCODE=${PIPESTATUS[0]}
+
+        fi
+        if [ $EXITCODE -eq 0 ]; then
+                echo '  agedue Web daemon successfully stopped'
+        fi
+        exit $EXITCODE
+        ;;
+    restart)
+        EXITCODE=0
+        if [ -f /bin/tmux ]; then
+                stop_agedu &>  /bin/tee /dev/console
+                EXITCODE=${PIPESTATUS[0]}
+
+        fi
+        if [ $EXITCODE -eq 0 ]; then
+                echo '  agedue Web daemon successfully stopped'
+        fi
+         /bin/pgrep -a agedu | grep "\-w" &> /dev/null
+        if [ $? -eq 0 ]; then
+        echo -e "\e[43mSKIP\e[0m tmux agedu WEB session already running"
+        else
+        start_agedu
+        echo -e "\e[42mDONE:\e[0m tmux agedu WEB session started"
+        fi
+        exit $EXITCODE
+        ;;
+
+    status)
+        /bin/pgrep -a agedu | grep "\-w" &> /dev/null
+        if [ $? -eq 0 ]; then
+        echo -e "\e[42mRunning\e[0m : tmux agedu WEB session is running"
+                /bin/pgrep -a tmux |grep WEB
+        else
+        echo -e "\e[43mStopped\e[0m : tmux agedu is not running"
+        fi
+        ;;
+    *)
+        echo "usage: `basename $0` {start|stop|restart|status}"
+        ;;
+esac
