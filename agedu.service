@@ -1,0 +1,12 @@
+[Unit]
+Description=agedu service inside tmux
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/etc/init.d/agedu_daemon start
+ExecStop=/etc/init.d/agedu_daemon stop
+ExecReload=/etc/init.d/agedu_daemon restart
+
+[Install]
+WantedBy=multi-user.target
