@@ -1,0 +1,25 @@
+#!/bin/sh
+
+agedu_scan() {
+
+/bin/agedu -f /tmp/sha6131.dat -s /export/ -d 1 --cross-fs
+
+if [ $? -eq 0 ]; then
+    echo OK
+        /bin/mv -f /tmp/sha6131.dat /export/sha6131.dat
+        /bin/systemctl stop agedu.service
+        /bin/pgrep -a agedu | grep "\-w" &> /dev/null
+        if [ $? -eq 0 ]; then
+        /bin/tmux kill-session -t WEB
+        else
+        /bin/systemctl start agedu.service
+        fi
+
+else
+    echo "FAILED to generate index file"
+fi
+
+}
+
+
+agedu_scan &> /dev/null
