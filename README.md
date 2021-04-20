@@ -13,3 +13,8 @@ REQUIREMENTS:
 agedue
 tmux
 
+Services and Config Files:
+
+ /etc/init.d/agedu_daemon
+ 
+ 
