@@ -17,4 +17,4 @@ Services and Config Files:
 
  /etc/init.d/agedu_daemon
  /etc/systemd/system/agedu.service
- 
+ /usr/local/sbin/agedu_scan
