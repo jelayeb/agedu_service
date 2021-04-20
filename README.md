@@ -16,5 +16,5 @@ tmux
 Services and Config Files:
 
  /etc/init.d/agedu_daemon
- 
+ /etc/systemd/system/agedu.service
  
