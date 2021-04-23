@@ -18,3 +18,13 @@ Services and Config Files:
  /etc/init.d/agedu_daemon
  /etc/systemd/system/agedu.service
  /usr/local/sbin/agedu_scan
+ 
+ make the service starts on boot. 
+ 
+ systemctl enable agedu.service
+ systemctl start agedu.service
+ 
+ 
+ create crontab to run the scan everynight
+ crontab -e
+ 2 0 * * * /usr/local/sbin/agedu_scan
